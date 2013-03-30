@@ -1,7 +1,6 @@
-import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.Point;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
@@ -16,7 +15,7 @@ class UserInterface extends JComponent implements ComponentListener, WindowFocus
 	Toolkit tk = Toolkit.getDefaultToolkit();
 	protected BufferedImage background;
     Camera stream = new Camera(this);
-    boolean x = false;
+    boolean x = true;
 	
 	public UserInterface(JFrame frame) { 		
 		frame.addComponentListener(this);
@@ -27,6 +26,11 @@ class UserInterface extends JComponent implements ComponentListener, WindowFocus
 	public void paintComponent(Graphics g) {
 		int blockWidth = stream.getWidth()/3;
 		int blockHeight = stream.getHeight()/2;
+		
+		Graphics2D g2 = (Graphics2D)g;
+		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+		                    RenderingHints.VALUE_ANTIALIAS_ON);
+		   
 		g.drawImage(background,0,0,null);
 		if (x) {
 			g.drawLine(blockWidth, 0, (blockWidth)+2, stream.getHeight());
