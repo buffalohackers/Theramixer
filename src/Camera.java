@@ -1,13 +1,8 @@
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.util.Hashtable;
-import javax.swing.JPanel;
 import au.edu.jcu.v4l4j.Control;
 import au.edu.jcu.v4l4j.FrameGrabber;
 import au.edu.jcu.v4l4j.CaptureCallback;
@@ -17,7 +12,7 @@ import au.edu.jcu.v4l4j.VideoFrame;
 import au.edu.jcu.v4l4j.exceptions.StateException;
 import au.edu.jcu.v4l4j.exceptions.V4L4JException;
 
-public class Camera extends JPanel implements CaptureCallback, MouseListener {
+public class Camera implements CaptureCallback {
 	private static int width = 1280, height = 720, std = V4L4JConstants.STANDARD_WEBCAM, channel = 0;
 	private static String device = "/dev/video0";
 	private static int[] lowerThreshold = new int[]{-150, -30, -150};
@@ -60,8 +55,6 @@ public class Camera extends JPanel implements CaptureCallback, MouseListener {
 			System.err.println("Error starting the capture");
 			e.printStackTrace();
 		}
-		
-		addMouseListener(this);
 	}
 
 	public int getWidth() {
@@ -111,6 +104,7 @@ public class Camera extends JPanel implements CaptureCallback, MouseListener {
 				col = 0;
 				row++;
 			}
+
 		}	
 		
 		Graphics graphics = image.getGraphics();
@@ -149,36 +143,5 @@ public class Camera extends JPanel implements CaptureCallback, MouseListener {
 
 	@Override
 	public void exceptionReceived(V4L4JException arg0) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		System.out.println(result[e.getX()][e.getY()][0] + " " + result[e.getX()][e.getY()][1] + " " + result[e.getX()][e.getY()][2]);
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 }
