@@ -114,8 +114,8 @@ public class Camera extends JPanel implements CaptureCallback, MouseListener {
 		int[][] colorPercentage = new int[numX][numY];
 		
 		Graphics graphics = image.getGraphics();
-		
-		graphics.setColor(Color.MAGENTA);
+	
+		graphics.setColor(Color.RED);
 		
 		result = newResult;
 		for (int x = 0;x < result.length;x++) {

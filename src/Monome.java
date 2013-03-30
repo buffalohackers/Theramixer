@@ -1,8 +1,7 @@
 import java.awt.BorderLayout;
+import java.util.ArrayList;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 
 public class Monome {
 	
@@ -17,7 +16,9 @@ public class Monome {
 		frame.pack();
 		frame.setSize(bg.cameraWidth(),bg.cameraHeight());
 		frame.setVisible(true); 
-	        
+		
+		ArrayList<Sample> samples = Sample.samplesInCurrentDirectory();		
+		samples.get(0).start();	       
 		
 	}
 }
