@@ -1,10 +1,7 @@
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-
-import javax.swing.JFrame;
-import javax.swing.JLabel;
+import java.awt.image.DataBufferByte;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 
 import au.edu.jcu.v4l4j.FrameGrabber;
 import au.edu.jcu.v4l4j.CaptureCallback;
@@ -65,6 +62,9 @@ public class Camera extends JPanel implements CaptureCallback {
         @Override
         public void nextFrame(VideoFrame frame) {
                 getGraphics().drawImage(frame.getBufferedImage(), 0, 0, width, height, null);
+                
+                byte[] pixels = ((DataBufferByte) frame.getBufferedImage().getRaster().getDataBuffer()).getData();
+                
                 frame.recycle();
         }
 
