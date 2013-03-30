@@ -6,15 +6,14 @@ public class Controller {
 	
 	public Controller() {
 		buttons = new boolean[6];
-		Sample musicFile = Sample.samplesInCurrentDirectory().get(0);
-		samples = new Sample[]{musicFile, musicFile, musicFile, musicFile, musicFile, musicFile};
+		String f = "/home/patrick/workspace/Fork-my-Banana/robot.mp3";
+		samples = new Sample[]{new Sample(f), new Sample(f), new Sample(f), new Sample(f), new Sample(f), new Sample(f), new Sample(f)};
 	}
 	
 	public void buttonStates(boolean[] state) {
 		for (int i = 0;i < buttons.length;i++) {
 			//System.out.print(buttons[i]);
 			if (buttons[i] != state[i]) {
-				System.out.println("HERE" + i);
 				if (i > 1) {
 					if (buttons[i]) {
 						samples[i].stop();
@@ -22,8 +21,6 @@ public class Controller {
 						samples[i].start();
 					}
 				}
-			} else if (!state[i]) {
-				samples[i].stop();
 			}
 		}
 		

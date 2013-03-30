@@ -11,6 +11,7 @@ public class Sample {
 	private String _fileName;
 	private Player _player;
 	private boolean isPlaying = false;
+	private Thread curThread;
 	
 	public static ArrayList<Sample> samplesInCurrentDirectory(){
 		return samplesInDirectory("./");
@@ -35,29 +36,24 @@ public class Sample {
 	}
 	
 	public void start(){
-		System.out.println("here " + isPlaying);
-		if (!isPlaying) {
-			_player = makePlayer();
-			new Thread(new Runnable(){
-				public void run(){
-					try {
-						_player.play();
-					} catch (JavaLayerException e) {
-						e.printStackTrace();
-					}
+		_player = makePlayer();
+		curThread = new Thread(new Runnable(){
+			public void run(){
+				try {
+					_player.play();
+				} catch (JavaLayerException e) {
+					e.printStackTrace();
 				}
-			}).start();
-		}
-		isPlaying = true;
+			}
+		});
+		curThread.start();
 	}
 	
 	public void stop(){
-		
-		if (isPlaying) {
-			System.out.println("here2 " + isPlaying);
+		if (_player != null && curThread.isAlive()) {
+			//curThread.interrupt();
 			_player.close();
 		}
-		isPlaying = false;
 	}
 	
 	private Player makePlayer(){
