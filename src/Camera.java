@@ -121,13 +121,12 @@ public class Camera extends JPanel implements CaptureCallback, MouseListener {
 	
 		graphics.setColor(Color.RED);
 
-		
 		result = newResult;
 		
 		boolean[] buttonStates = new boolean[6];
 		int curButton = 0;
 		
-		for (int x = numX-1;x > 0;x--) {
+		for (int x = numX-1;x >= 0;x--) {
 			for (int y = 0;y < numY;y++) {
 				if (colorPercentage[x][y] > 80) {
 					graphics.fillRect((width*x)/numX, (height*y)/numY, width/numX, height/numY);
@@ -137,7 +136,7 @@ public class Camera extends JPanel implements CaptureCallback, MouseListener {
 				}
 				curButton++;
 				
-				graphics.drawString(Integer.toString(colorPercentage[x][y]), (width*x)/numX, (height*y)/numY+20);
+				graphics.drawString(Integer.toString(colorPercentage[x][y]), (width*x)/numX+20, (height*y)/numY+50);
 			}
 		}
 		
