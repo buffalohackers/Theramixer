@@ -7,9 +7,7 @@ import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.util.Hashtable;
-
 import javax.swing.JPanel;
-
 import au.edu.jcu.v4l4j.Control;
 import au.edu.jcu.v4l4j.FrameGrabber;
 import au.edu.jcu.v4l4j.CaptureCallback;
@@ -29,9 +27,9 @@ public class Camera extends JPanel implements CaptureCallback, MouseListener {
 
 	private VideoDevice videoDevice;
 	private FrameGrabber frameGrabber;
-	private ui ui;
+	private UserInterface ui;
 
-	public Camera(ui _ui) {
+	public Camera(UserInterface _ui) {
 		ui = _ui;
 		// Initialise video device and frame grabber
 		try {
@@ -41,8 +39,6 @@ public class Camera extends JPanel implements CaptureCallback, MouseListener {
 			width = frameGrabber.getWidth();
 			height = frameGrabber.getHeight();
 			Hashtable<String, Control> controls = videoDevice.getControlList().getTable();
-			
-
 			
 			System.out.println(controls);
 			frameGrabber.setFrameInterval(1, 30);
