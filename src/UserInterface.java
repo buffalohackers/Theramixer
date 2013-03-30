@@ -25,8 +25,12 @@ class UserInterface extends JComponent implements ComponentListener, WindowFocus
 	}	
 
 	public void paintComponent(Graphics g) {
+		int blockWidth = stream.getWidth()/3;
+		int blockHeight = stream.getHeight()/2;
 		g.drawImage(background,0,0,null);
-		g.drawLine(stream.getWidth()/3, 0, (stream.getWidth()/3)+2, stream.getHeight());
+		g.drawLine(blockWidth, 0, (blockWidth)+2, stream.getHeight());
+		g.drawLine(2*blockWidth, 0, (2*blockWidth)+2, stream.getHeight());
+		g.drawLine(0, blockHeight, stream.getWidth(), blockHeight+2);
 	}
 	
 	public void nextFrame(BufferedImage img) {
