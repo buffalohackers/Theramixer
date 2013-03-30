@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class Controller {
 	private boolean[] buttons;
-	private Sample[] samples;
+	private ArrayList<Sample> samples;
 	private boolean isRecording;
 	private ArrayList<Sample> recording;
 	private ArrayList<Long[]> duration;
@@ -15,8 +15,10 @@ public class Controller {
 		duration = new ArrayList<Long[]>();
 		isRecording = false;
 		buttons = new boolean[6];
-		String f = "/home/patrick/workspace/Fork-my-Banana/snl12.mp3";
-		samples = new Sample[]{new Sample("/home/patrick/workspace/Fork-my-Banana/snl12.mp3"), new Sample("/home/patrick/workspace/Fork-my-Banana/robot.mp3"), new Sample(f), new Sample(f)};
+		
+		samples = Sample.samplesInCurrentDirectory();
+		System.out.println(samples.get(0).getFileName());
+//		samples = new Sample[]{new Sample("/home/pe/Code/workspace/Fork-my-Banana/snl12.mp3"), new Sample("/home/pe/Code/workspace/Fork-my-Banana/robot.mp3"), new Sample(f), new Sample(f)};
 	}
 	
 	public void buttonStates(boolean[] state) {
@@ -24,16 +26,16 @@ public class Controller {
 			if (buttons[i] != state[i]) {
 				if (i > 1) {
 					if (buttons[i]) {
-						samples[i-2].stop();
+						samples.get(i-2).stop();
 						if (isRecording) {
 							Long[] curDuration = duration.get(duration.size()-1);
 							curDuration[1] = System.currentTimeMillis()-startTime;
 							duration.set(duration.size()-1, curDuration);
 						}
 					} else {
-						samples[i-2].start();
+						samples.get(i-2).start();
 						if (isRecording) {
-							recording.add(new Sample(samples[i-2].getFileName()));
+							recording.add(new Sample(samples.get(i-2).getFileName()));
 							duration.add(new Long[]{System.currentTimeMillis()-startTime, (long)0});
 						}
 					}
@@ -96,7 +98,7 @@ public class Controller {
 				}
 			} else {
 				if (i > 1 && !buttons[i]) {
-					samples[i-2].stop();
+					samples.get(i-2).stop();
 				}
 			}
 		}

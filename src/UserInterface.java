@@ -1,3 +1,5 @@
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -9,7 +11,6 @@ import java.awt.event.WindowFocusListener;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
-import java.awt.image.WritableRaster;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -50,6 +51,14 @@ class UserInterface extends JComponent implements ComponentListener, WindowFocus
 			g.drawImage(background,0,0,null);
 			
 			if (x) {
+				g.setFont( new Font( "Arial", Font.BOLD, 50 ) );
+				g.setColor(new Color(255, 255, 255, 255));
+				g.drawString("Change Mode", blockWidth/5, blockHeight/2);
+				g.drawString("Mix 01", blockWidth/3+blockWidth, blockHeight/2);
+				g.drawString("Mix 03", blockWidth/3+(blockWidth*2), blockHeight/2);
+				g.drawString("Record Loop", blockWidth/4, blockHeight+(blockHeight/2));
+				g.drawString("Mix 02", blockWidth/3+blockWidth, blockHeight/2+blockHeight);
+				g.drawString("Mix 04", blockWidth/3+(blockWidth*2), blockHeight/2+blockHeight);
 				g.drawLine(blockWidth, 0, (blockWidth)+3, screenHeight);
 				g.drawLine(2*blockWidth, 0, (2*blockWidth)+3, screenHeight);
 				g.drawLine(0, blockHeight, screenWidth, blockHeight+3);

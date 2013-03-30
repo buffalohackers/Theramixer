@@ -104,11 +104,10 @@ public class Camera implements CaptureCallback {
 				col = 0;
 				row++;
 			}
-		}
+
+		}	
 		
 		Graphics graphics = image.getGraphics();
-		
-		graphics.setColor(Color.RED);
 
 		result = newResult;
 		
@@ -120,7 +119,7 @@ public class Camera implements CaptureCallback {
 		for (int x = numX-1;x >= 0;x--) {
 			for (int y = 0;y < numY;y++) {
 				if (colorPercentage[x][y] > 80) {
-					graphics.setColor(new Color(200, 0, 0, 100));
+					graphics.setColor(new Color(0, 200, 0, 100));
 					graphics.fillRect((width*x)/numX, (height*y)/numY, width/numX, height/numY+2);
 					buttonStates[curButton] = true;
 				} else {
