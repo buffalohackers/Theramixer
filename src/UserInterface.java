@@ -16,8 +16,8 @@ import javax.swing.JFrame;
 
 class UserInterface extends JComponent implements ComponentListener, WindowFocusListener, Runnable  {
 	Toolkit tk = Toolkit.getDefaultToolkit();
-	protected BufferedImage background;
     Camera stream = new Camera(this);
+	private BufferedImage background;
     boolean x = true;
 	
 	public UserInterface(JFrame frame) { 		
@@ -29,10 +29,11 @@ class UserInterface extends JComponent implements ComponentListener, WindowFocus
 	public void paintComponent(Graphics g) {		
 		float xRatio = (float) tk.getScreenSize().width/stream.getWidth();
 		float yRatio = (float) tk.getScreenSize().height/stream.getHeight();
+		int StreamWidth = stream.getWidth();
 		int screenHeight = tk.getScreenSize().height;
 		int screenWidth = tk.getScreenSize().width;
 		int blockWidth = screenWidth/3;
-		int blockHeight = screenHeight/2;		
+		int blockHeight = screenHeight/2;
 		
 		Graphics2D g2 = (Graphics2D)g;
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
@@ -40,13 +41,14 @@ class UserInterface extends JComponent implements ComponentListener, WindowFocus
 		
 		AffineTransform tx = AffineTransform.getScaleInstance(-1, 1);
 		tx.scale(xRatio, yRatio);
-		tx.translate(-background.getWidth(null), 0);
+		tx.translate(-StreamWidth, 0);
 		
 		AffineTransformOp op = new AffineTransformOp(tx, 
                 AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
 		background = op.filter(background, null);
 		   
 		g.drawImage(background,0,0,null);
+		
 		if (x) {
 			g.drawLine(blockWidth, 0, (blockWidth)+3, screenHeight);
 			g.drawLine(2*blockWidth, 0, (2*blockWidth)+3, screenHeight);
@@ -58,8 +60,8 @@ class UserInterface extends JComponent implements ComponentListener, WindowFocus
 	}
 	
 	public void nextFrame(BufferedImage img) {
-			background = img;
-			repaint();
+		background = img;
+		repaint();
 	}
 	
 	public int screenWidth() {
