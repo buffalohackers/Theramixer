@@ -7,7 +7,11 @@ public class Monome {
 	
 	public static void main(String[] args) {		
 		JFrame frame = new JFrame("Monome Player");
+		
 		UserInterface bg = new UserInterface(frame);
+		Controller controller = new Controller();
+		Camera camera = new Camera(bg, controller);
+		bg.setStream(camera);
 		bg.setLayout(new BorderLayout());
 		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		
@@ -15,11 +19,8 @@ public class Monome {
 		
 		frame.pack();
 		frame.setSize(bg.cameraWidth(),bg.cameraHeight());
-		frame.setVisible(true); 
+		frame.setVisible(true);
 		
-		ArrayList<Sample> samples = Sample.samplesInCurrentDirectory();		
-		samples.get(0).start();	       
 		
-
 	}
 }

@@ -28,9 +28,11 @@ public class Camera extends JPanel implements CaptureCallback, MouseListener {
 	private VideoDevice videoDevice;
 	private FrameGrabber frameGrabber;
 	private UserInterface ui;
+	private Controller controller;
 
-	public Camera(UserInterface _ui) {
+	public Camera(UserInterface _ui, Controller _controller) {
 		ui = _ui;
+		controller = _controller;
 		// Initialise video device and frame grabber
 		try {
 			videoDevice = new VideoDevice(device);
@@ -120,16 +122,25 @@ public class Camera extends JPanel implements CaptureCallback, MouseListener {
 		
 		result = newResult;
 		
-		for (int x = 0;x < numX;x++) {
+		boolean[] buttonStates = new boolean[6];
+		int curButton = 0;
+		
+		for (int x = numX-1;x > 0;x--) {
 			for (int y = 0;y < numY;y++) {
-				if (colorPercentage[x][y] > 1000) {
+				if (colorPercentage[x][y] > 1500) {
 					graphics.fillRect((width*x)/numX, (height*y)/numY, width/numX, height/numY);
+					buttonStates[curButton] = true;
+				} else {
+					buttonStates[curButton] = false;
 				}
-				graphics.drawString(Integer.toString(colorPercentage[x][y]), (width*x)/numX, (height*y)/numY);
+				curButton++;
+				
+				graphics.drawString(Integer.toString(colorPercentage[x][y]), (width*x)/numX, (height*y)/numY+20);
 			}
 		}
 		
 		ui.nextFrame(image);
+		controller.buttonStates(buttonStates);
 		
 		frame.recycle();
 	}

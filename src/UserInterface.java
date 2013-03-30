@@ -16,7 +16,7 @@ import javax.swing.JFrame;
 class UserInterface extends JComponent implements ComponentListener, WindowFocusListener, Runnable  {
 	Toolkit tk = Toolkit.getDefaultToolkit();
 	protected BufferedImage background;
-    Camera stream = new Camera(this);
+    Camera stream;
     boolean x = true;
 	
 	public UserInterface(JFrame frame) { 		
@@ -26,29 +26,35 @@ class UserInterface extends JComponent implements ComponentListener, WindowFocus
 	}	
 
 	public void paintComponent(Graphics g) {
-		int blockWidth = stream.getWidth()/3;
-		int blockHeight = stream.getHeight()/2;
-		
-		Graphics2D g2 = (Graphics2D)g;
-		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-		                    RenderingHints.VALUE_ANTIALIAS_ON);
-		
-		AffineTransform tx = AffineTransform.getScaleInstance(-1, 1);
-		tx.translate(-stream.getWidth(), 0);
-		
-		AffineTransformOp op = new AffineTransformOp(tx, 
-                AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
-		background = op.filter(background, null);
-		   
-		g.drawImage(background,0,0,null);
-		if (x) {
-			g.drawLine(blockWidth, 0, (blockWidth)+2, stream.getHeight());
-			g.drawLine(2*blockWidth, 0, (2*blockWidth)+2, stream.getHeight());
-			g.drawLine(0, blockHeight, stream.getWidth(), blockHeight+2);
-		} else {
-			g.drawLine(blockWidth, 0, (blockWidth)+2, stream.getHeight());
-			g.drawLine(blockWidth+200, 0, (blockWidth)+202, stream.getHeight());
+		if (stream != null) {
+			int blockWidth = stream.getWidth()/3;
+			int blockHeight = stream.getHeight()/2;
+			
+			Graphics2D g2 = (Graphics2D)g;
+			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+			                    RenderingHints.VALUE_ANTIALIAS_ON);
+			
+			AffineTransform tx = AffineTransform.getScaleInstance(-1, 1);
+			tx.translate(-stream.getWidth(), 0);
+			
+			AffineTransformOp op = new AffineTransformOp(tx, 
+	                AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+			background = op.filter(background, null);
+			   
+			g.drawImage(background,0,0,null);
+			if (x) {
+				g.drawLine(blockWidth, 0, (blockWidth)+2, stream.getHeight());
+				g.drawLine(2*blockWidth, 0, (2*blockWidth)+2, stream.getHeight());
+				g.drawLine(0, blockHeight, stream.getWidth(), blockHeight+2);
+			} else {
+				g.drawLine(blockWidth, 0, (blockWidth)+2, stream.getHeight());
+				g.drawLine(blockWidth+200, 0, (blockWidth)+202, stream.getHeight());
+			}
 		}
+	}
+	
+	public void setStream(Camera _camera) {
+		stream = _camera;
 	}
 	
 	public void nextFrame(BufferedImage img) {
