@@ -8,8 +8,8 @@ public class Controller {
 	
 	public Controller() {
 		buttons = new boolean[6];
-		String f = "/home/patrick/workspace/Fork-my-Banana/snl12.mp3";
-		samples = new Sample[]{new Sample("/home/patrick/workspace/Fork-my-Banana/snl12.mp3"), new Sample("/home/patrick/workspace/Fork-my-Banana/robot.mp3"), new Sample(f), new Sample(f)};
+		String f = "/home/pe/Code/workspace/Fork-my-Banana/snl12.mp3";
+		samples = new Sample[]{new Sample("/home/pe/Code/workspace/Fork-my-Banana/snl12.mp3"), new Sample("/home/pe/Code/workspace/Fork-my-Banana/robot.mp3"), new Sample(f), new Sample(f)};
 	}
 	
 	public void buttonStates(boolean[] state) {
