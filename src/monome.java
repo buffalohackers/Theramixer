@@ -6,8 +6,7 @@ public class monome {
 	
 	public static void main(String[] args){
 		
-		ui test = new ui();
-		test.window();
+		new ui();
 		
 	}
 

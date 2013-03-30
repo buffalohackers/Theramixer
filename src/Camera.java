@@ -20,10 +20,6 @@ public class Camera extends JPanel implements CaptureCallback {
 
         private VideoDevice videoDevice;
         private FrameGrabber frameGrabber;
-
-        public static void main(String args[]){
-        	new Camera();
-        }
         
         public Camera () {
             
