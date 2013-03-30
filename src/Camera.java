@@ -45,6 +45,14 @@ public class Camera extends JPanel implements CaptureCallback {
 			}
         }
         
+        public int getWidth() {
+        	return width;
+        }
+        
+        public int getHeight() {
+        	return height;
+        }
+        
         private void cleanupCapture() {
                 try {
                     frameGrabber.stopCapture();
