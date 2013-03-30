@@ -117,8 +117,6 @@ public class Camera extends JPanel implements CaptureCallback, MouseListener {
 		
 		Graphics graphics = image.getGraphics();
 		
-		graphics.drawRect(500, 50, 10, 10);
-	
 		graphics.setColor(Color.RED);
 
 		result = newResult;
@@ -129,14 +127,15 @@ public class Camera extends JPanel implements CaptureCallback, MouseListener {
 		for (int x = numX-1;x >= 0;x--) {
 			for (int y = 0;y < numY;y++) {
 				if (colorPercentage[x][y] > 80) {
-					graphics.fillRect((width*x)/numX, (height*y)/numY, width/numX, height/numY);
+					graphics.setColor(new Color(200, 0, 0, 100));
+					graphics.fillRect((width*x)/numX, (height*y)/numY, width/numX, height/numY+2);
 					buttonStates[curButton] = true;
 				} else {
 					buttonStates[curButton] = false;
 				}
 				curButton++;
 				
-				graphics.drawString(Integer.toString(colorPercentage[x][y]), (width*x)/numX+20, (height*y)/numY+50);
+				//graphics.drawString(Integer.toString(colorPercentage[x][y]), (width*x)/numX+20, (height*y)/numY+50);
 			}
 		}
 		
