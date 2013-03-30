@@ -14,7 +14,7 @@ import java.awt.Toolkit;
 
 public class ui extends JPanel {
 	Toolkit tk = Toolkit.getDefaultToolkit();	
-	static Camera stream = new Camera();
+	Camera stream = new Camera();
 	
 	public ui() { 	
 		JLayeredPane overlays = new JLayeredPane();	 	
@@ -38,7 +38,7 @@ public class ui extends JPanel {
 	public static void dOverlayCamera() {
 		JFrame frame = new JFrame("Monome");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(stream.getWidth(), stream.getHeight());
+        frame.setSize(640, 480);
         frame.setUndecorated(false);
         
 		JComponent testing = new ui();

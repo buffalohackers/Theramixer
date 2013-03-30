@@ -12,7 +12,7 @@ import au.edu.jcu.v4l4j.exceptions.StateException;
 import au.edu.jcu.v4l4j.exceptions.V4L4JException;
 
 public class Camera extends JPanel implements CaptureCallback {
-        private static int width = 1280, height = 720, std = V4L4JConstants.STANDARD_WEBCAM, channel = 0;
+        private static int width = 640, height = 480, std = V4L4JConstants.STANDARD_WEBCAM, channel = 0;
         private static String device = "/dev/video0";
 
         private VideoDevice videoDevice;
