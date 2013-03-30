@@ -2,42 +2,47 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
+import java.awt.image.BufferedImage;
+
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 
 
+
 class ui extends JComponent implements ComponentListener, WindowFocusListener, Runnable  {
 	Toolkit tk = Toolkit.getDefaultToolkit();
-	protected Camera background;
-    Camera stream = new Camera();
+	protected BufferedImage background;
+    Camera stream = new Camera(this);
 	
 	public ui(JFrame frame) { 	
-		updateBackground();
+		
 		frame.addComponentListener(this);
 		frame.addWindowFocusListener(this);
 		new Thread(this).start();        
-	}
-	
-	public void updateBackground() {
-		try {
-			background = stream.nextFrame();
-		} catch (Exception ex) {
-			System.out.println(ex.toString());
-			ex.printStackTrace();
-		}
-	}
-	
+	}	
+
 	public void paintComponent(Graphics g) {
 		Point pos = this.getLocationOnScreen();
 		Point offset = new Point(-pos.x,-pos.y);
 		g.drawImage(background,offset.x,offset.y,null);
+	}
+	
+	public void nextFrame(BufferedImage img) {
+			background = img;
+			repaint();
+	}
+	
+	public int cameraWidth() {
+		return stream.getWidth();
+	}
+	
+	public int cameraHeight() {
+		return stream.getHeight();
 	}
 
 	@Override
@@ -61,7 +66,6 @@ class ui extends JComponent implements ComponentListener, WindowFocusListener, R
 	@Override
 	public void componentHidden(ComponentEvent e) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override

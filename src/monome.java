@@ -16,7 +16,7 @@ public class monome {
 		bg.add("South",label);
 		frame.getContentPane().add("Center",bg);
 		frame.pack();
-		frame.setSize(800,800);
+		frame.setSize(bg.cameraWidth(),bg.cameraHeight());
 		frame.setVisible(true); 
 	        
 		
