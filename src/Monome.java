@@ -17,8 +17,6 @@ public class Monome {
 		frame.getContentPane().add("Center",bg);
 		frame.pack();
 		frame.setSize(bg.cameraWidth(),bg.cameraHeight());
-		frame.setVisible(true); 
-	        
-		
+		frame.setVisible(true);
 	}
 }
