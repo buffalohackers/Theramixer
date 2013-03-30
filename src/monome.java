@@ -1,6 +1,5 @@
 import java.awt.BorderLayout;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
@@ -17,8 +16,6 @@ public class monome {
 		frame.getContentPane().add("Center",bg);
 		frame.pack();
 		frame.setSize(bg.cameraWidth(),bg.cameraHeight());
-		frame.setVisible(true); 
-	        
-		
+		frame.setVisible(true);
 	}
 }

@@ -41,7 +41,6 @@ public class Camera extends JPanel implements CaptureCallback, MouseListener {
 			width = frameGrabber.getWidth();
 			height = frameGrabber.getHeight();
 			Hashtable<String, Control> controls = videoDevice.getControlList().getTable();
-			
 
 			
 			System.out.println(controls);
@@ -124,10 +123,7 @@ public class Camera extends JPanel implements CaptureCallback, MouseListener {
 		result = newResult;
 		for (int x = 0;x < result.length;x++) {
 			for (int y = 0;y < result[x].length;y++) {
-				if (isWithinThreshold(result[x][y])) {
-					//graphics.drawLine(x, y, x, y);
-					colorPercentage[(int)(numX*((double)x/width))][(int)(numY*((double)y/height))]++;
-				}
+				
 			}
 		}
 		
