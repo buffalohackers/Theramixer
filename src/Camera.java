@@ -20,8 +20,8 @@ import au.edu.jcu.v4l4j.exceptions.V4L4JException;
 public class Camera extends JPanel implements CaptureCallback, MouseListener {
 	private static int width = 1280, height = 720, std = V4L4JConstants.STANDARD_WEBCAM, channel = 0;
 	private static String device = "/dev/video0";
-	private static int[] lowerThreshold = new int[]{200, 20, 100};
-	private static int[] upperThreshold = new int[]{255, 200, 160};
+	private static int[] lowerThreshold = new int[]{-47, 83, 103};
+	private static int[] upperThreshold = new int[]{3, 130, 128};
 	private int[][][] result;
 	
 
@@ -87,46 +87,42 @@ public class Camera extends JPanel implements CaptureCallback, MouseListener {
 		byte[] pixels = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
 
 		int[][][] newResult = new int[width][height][3];
-		final int pixelLength = 3;
-		for (int pixel = 0, row = 0, col = 0; pixel < pixels.length; pixel += pixelLength) {
-			int argb = 0;
-			argb += -16777216; // 255 alpha
-			argb += ((int) pixels[pixel] & 0xff); // blue
-			argb += (((int) pixels[pixel + 1] & 0xff) << 8); // green
-			argb += (((int) pixels[pixel + 2] & 0xff) << 16); // red
-			int r = ((argb >> 16) & 0x000000FF);
-			int g = ((argb >> 4) & 0x000000FF);
-			int b = ((argb) & 0x000000FF);
-			newResult[col][row][0] = r;
-			newResult[col][row][1] = g;
-			newResult[col][row][2] = b;
-			
-			col++;
-			if (col == width) {
-				col = 0;
-				row++;
-			}
-		}
 		
 		int numX = 3;
 		int numY = 2;
 		
 		int[][] colorPercentage = new int[numX][numY];
 		
-		Graphics graphics = image.getGraphics();
-	
-		graphics.setColor(Color.RED);
-		
-		result = newResult;
-		for (int x = 0;x < result.length;x++) {
-			for (int y = 0;y < result[x].length;y++) {
-				
+		final int pixelLength = 3;
+		for (int pixel = 0, row = 0, col = 0; pixel < pixels.length - pixelLength*5; pixel += pixelLength*5) {
+			
+			newResult[col][row][0] = pixels[pixel+2];
+			newResult[col][row][1] = pixels[pixel+1];
+			newResult[col][row][2] = pixels[pixel];
+			
+			if (isWithinThreshold(newResult[col][row])) {
+				colorPercentage[(int)(numX*((double)col/width))][(int)(numY*((double)row/height))]++;
+			}
+			
+			col+=5;
+			if (col == width) {
+				col = 0;
+				row++;
 			}
 		}
 		
+		
+		
+		Graphics graphics = image.getGraphics();
+	
+		graphics.setColor(Color.RED);
+
+		
+		result = newResult;
+		
 		for (int x = 0;x < numX;x++) {
 			for (int y = 0;y < numY;y++) {
-				if (colorPercentage[x][y] > 30000) {
+				if (colorPercentage[x][y] > 1000) {
 					graphics.fillRect((width*x)/numX, (height*y)/numY, width/numX, height/numY);
 				}
 				graphics.drawString(Integer.toString(colorPercentage[x][y]), (width*x)/numX, (height*y)/numY);
