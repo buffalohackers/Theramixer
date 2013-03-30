@@ -1,9 +1,12 @@
 public class monome {
 	
-	public static void main(String[] args){
+	public static void main(String[] args){	
 		
-		new ui();
-		
+		javax.swing.SwingUtilities.invokeLater(new Runnable() {
+			ui test = new ui();
+	        public void run() {
+	        	test.dOverlayCamera();
+	        }
+		});
 	}
-
 }
