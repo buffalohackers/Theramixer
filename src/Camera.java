@@ -6,8 +6,11 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
+import java.util.Hashtable;
+
 import javax.swing.JPanel;
 
+import au.edu.jcu.v4l4j.Control;
 import au.edu.jcu.v4l4j.FrameGrabber;
 import au.edu.jcu.v4l4j.CaptureCallback;
 import au.edu.jcu.v4l4j.V4L4JConstants;
@@ -19,15 +22,17 @@ import au.edu.jcu.v4l4j.exceptions.V4L4JException;
 public class Camera extends JPanel implements CaptureCallback, MouseListener {
 	private static int width = 1280, height = 720, std = V4L4JConstants.STANDARD_WEBCAM, channel = 0;
 	private static String device = "/dev/video0";
-	private static int[] lowerThreshold = new int[]{135, 192, 183};
-	private static int[] upperThreshold = new int[]{255, 255, 255};
+	private static int[] lowerThreshold = new int[]{200, 20, 100};
+	private static int[] upperThreshold = new int[]{255, 200, 160};
 	private int[][][] result;
 	
 
 	private VideoDevice videoDevice;
 	private FrameGrabber frameGrabber;
+	private ui ui;
 
-	public Camera() {
+	public Camera(ui _ui) {
+		ui = _ui;
 		// Initialise video device and frame grabber
 		try {
 			videoDevice = new VideoDevice(device);
@@ -35,6 +40,12 @@ public class Camera extends JPanel implements CaptureCallback, MouseListener {
 			frameGrabber.setCaptureCallback(this);
 			width = frameGrabber.getWidth();
 			height = frameGrabber.getHeight();
+			Hashtable<String, Control> controls = videoDevice.getControlList().getTable();
+			
+			controls.get("Exposure, Auto").setValue(1);
+			
+			System.out.println(controls);
+			frameGrabber.setFrameInterval(1, 30);
 			System.out.println("Starting capture at "+width+"x"+height);
 		} catch (V4L4JException e1) {
 			System.err.println("Error setting up capture");
@@ -79,7 +90,7 @@ public class Camera extends JPanel implements CaptureCallback, MouseListener {
 
 		byte[] pixels = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
 
-		result = new int[width][height][3];
+		int[][][] newResult = new int[width][height][3];
 		final int pixelLength = 3;
 		for (int pixel = 0, row = 0, col = 0; pixel < pixels.length; pixel += pixelLength) {
 			int argb = 0;
@@ -90,17 +101,9 @@ public class Camera extends JPanel implements CaptureCallback, MouseListener {
 			int r = ((argb >> 16) & 0x000000FF);
 			int g = ((argb >> 4) & 0x000000FF);
 			int b = ((argb) & 0x000000FF);
-			result[col][row][0] = r;
-			result[col][row][1] = g;
-			result[col][row][2] = b;
-			
-			Graphics graphics = image.getGraphics();
-			
-			graphics.setColor(Color.pink);
-			
-			if (isWithinThreshold(r, g, b)) {
-				graphics.drawLine(col, row, col, row);
-			}
+			newResult[col][row][0] = r;
+			newResult[col][row][1] = g;
+			newResult[col][row][2] = b;
 			
 			col++;
 			if (col == width) {
@@ -109,21 +112,43 @@ public class Camera extends JPanel implements CaptureCallback, MouseListener {
 			}
 		}
 		
+		int numX = 3;
+		int numY = 2;
+		
+		int[][] colorPercentage = new int[numX][numY];
+		
+		Graphics graphics = image.getGraphics();
+		
+		graphics.setColor(Color.MAGENTA);
+		
+		result = newResult;
 		for (int x = 0;x < result.length;x++) {
 			for (int y = 0;y < result[x].length;y++) {
-				
+				if (isWithinThreshold(result[x][y])) {
+					//graphics.drawLine(x, y, x, y);
+					colorPercentage[(int)(numX*((double)x/width))][(int)(numY*((double)y/height))]++;
+				}
 			}
 		}
 		
+		for (int x = 0;x < numX;x++) {
+			for (int y = 0;y < numY;y++) {
+				if (colorPercentage[x][y] > 30000) {
+					graphics.fillRect((width*x)/numX, (height*y)/numY, width/numX, height/numY);
+				}
+				graphics.drawString(Integer.toString(colorPercentage[x][y]), (width*x)/numX, (height*y)/numY);
+			}
+		}
 		
-		getGraphics().drawImage(image, 0, 0, width, height, null);
+		ui.nextFrame(image);
+		
 		frame.recycle();
 	}
 	
-	private boolean isWithinThreshold(int r, int g, int b) {
-		return (r >= lowerThreshold[0] && r <= upperThreshold[0] &&
-				g >= lowerThreshold[1] && g <= upperThreshold[1] &&
-				b >= lowerThreshold[2] && b <= upperThreshold[2]);
+	private boolean isWithinThreshold(int[] c) {
+		return (c[0] >= lowerThreshold[0] && c[0] <= upperThreshold[0] &&
+				c[1] >= lowerThreshold[1] && c[1] <= upperThreshold[1] &&
+				c[2] >= lowerThreshold[2] && c[2] <= upperThreshold[2]);
 	}
 
 	@Override
