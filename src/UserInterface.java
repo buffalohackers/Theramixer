@@ -6,6 +6,8 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JComponent;
@@ -30,6 +32,13 @@ class UserInterface extends JComponent implements ComponentListener, WindowFocus
 		Graphics2D g2 = (Graphics2D)g;
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 		                    RenderingHints.VALUE_ANTIALIAS_ON);
+		
+		AffineTransform tx = AffineTransform.getScaleInstance(-1, 1);
+		tx.translate(-stream.getWidth(), 0);
+		
+		AffineTransformOp op = new AffineTransformOp(tx, 
+                AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+		background = op.filter(background, null);
 		   
 		g.drawImage(background,0,0,null);
 		if (x) {
