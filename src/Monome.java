@@ -14,11 +14,11 @@ public class Monome {
 		frame.getContentPane().add("Center",bg);
 		
 		frame.pack();
-		frame.setSize(bg.cameraWidth(),bg.cameraHeight());
+		frame.setSize(bg.screenWidth(),bg.screenHeight());
 		frame.setVisible(true); 
 		
 		ArrayList<Sample> samples = Sample.samplesInCurrentDirectory();		
-		samples.get(0).start();	       
+//		samples.get(0).start();	       
 		
 
 	}

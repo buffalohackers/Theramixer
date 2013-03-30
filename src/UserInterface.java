@@ -9,6 +9,7 @@ import java.awt.event.WindowFocusListener;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
+import java.awt.image.WritableRaster;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -25,16 +26,21 @@ class UserInterface extends JComponent implements ComponentListener, WindowFocus
 		new Thread(this).start();        
 	}	
 
-	public void paintComponent(Graphics g) {
-		int blockWidth = stream.getWidth()/3;
-		int blockHeight = stream.getHeight()/2;
+	public void paintComponent(Graphics g) {		
+		float xRatio = (float) tk.getScreenSize().width/stream.getWidth();
+		float yRatio = (float) tk.getScreenSize().height/stream.getHeight();
+		int screenHeight = tk.getScreenSize().height;
+		int screenWidth = tk.getScreenSize().width;
+		int blockWidth = screenWidth/3;
+		int blockHeight = screenHeight/2;		
 		
 		Graphics2D g2 = (Graphics2D)g;
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-		                    RenderingHints.VALUE_ANTIALIAS_ON);
+		                    RenderingHints.VALUE_ANTIALIAS_ON);		
 		
 		AffineTransform tx = AffineTransform.getScaleInstance(-1, 1);
-		tx.translate(-stream.getWidth(), 0);
+		tx.scale(xRatio, yRatio);
+		tx.translate(-background.getWidth(null), 0);
 		
 		AffineTransformOp op = new AffineTransformOp(tx, 
                 AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
@@ -42,9 +48,9 @@ class UserInterface extends JComponent implements ComponentListener, WindowFocus
 		   
 		g.drawImage(background,0,0,null);
 		if (x) {
-			g.drawLine(blockWidth, 0, (blockWidth)+2, stream.getHeight());
-			g.drawLine(2*blockWidth, 0, (2*blockWidth)+2, stream.getHeight());
-			g.drawLine(0, blockHeight, stream.getWidth(), blockHeight+2);
+			g.drawLine(blockWidth, 0, (blockWidth)+3, screenHeight);
+			g.drawLine(2*blockWidth, 0, (2*blockWidth)+3, screenHeight);
+			g.drawLine(0, blockHeight, screenWidth, blockHeight+3);
 		} else {
 			g.drawLine(blockWidth, 0, (blockWidth)+2, stream.getHeight());
 			g.drawLine(blockWidth+200, 0, (blockWidth)+202, stream.getHeight());
@@ -56,12 +62,12 @@ class UserInterface extends JComponent implements ComponentListener, WindowFocus
 			repaint();
 	}
 	
-	public int cameraWidth() {
-		return stream.getWidth();
+	public int screenWidth() {
+		return tk.getScreenSize().width;
 	}
 	
-	public int cameraHeight() {
-		return stream.getHeight();
+	public int screenHeight() {
+		return tk.getScreenSize().width;
 	}
 
 	@Override
