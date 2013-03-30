@@ -30,11 +30,9 @@ public class Sample {
 	
 	public Sample(String fileName){
 		_fileName = fileName;
-		
 	}
 	
 	public void start(){
-		
 		new Thread(new Runnable(){
 			public void run(){
 				try {
@@ -54,6 +52,10 @@ public class Sample {
 					_player.close();
 			}
 		}).start();
+	}
+	
+	public String getFileName() {
+		return _fileName;
 	}
 	
 	private Player makePlayer(){
