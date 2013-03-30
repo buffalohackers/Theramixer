@@ -11,14 +11,11 @@ public class ui {
 	public ui() {
 		Dimension d = tk.getScreenSize();
 	 	JFrame frame = new JFrame("Transparent Window");
+	 	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(d.width, d.height);
         frame.setAlwaysOnTop(true);
-        frame.setUndecorated(false);
-
-        frame.setBackground(new Color(255, 255, 255, 255));	      
+        frame.setUndecorated(false);	      
         frame.getContentPane().add(new Camera());
-        frame.getRootPane().putClientProperty("apple.awt.draggableWindowBackground", false);
-        frame.getContentPane().setLayout(new java.awt.BorderLayout());
         frame.setVisible(true);	
 	}
 
