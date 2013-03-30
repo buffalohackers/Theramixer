@@ -1,8 +1,10 @@
+import javazoom.jl.decoder.JavaLayerException;
+
 
 public class Controller {
 	private boolean[] buttons;
-	private String[] music;
 	private Sample[] samples;
+	private int i;
 	
 	public Controller() {
 		buttons = new boolean[6];
@@ -11,11 +13,11 @@ public class Controller {
 	}
 	
 	public void buttonStates(boolean[] state) {
-		for (int i = 0;i < buttons.length;i++) {
-			//System.out.print(buttons[i]);
+		for (i = 0;i < buttons.length;i++) {
 			if (buttons[i] != state[i]) {
 				if (i > 1) {
 					if (buttons[i]) {
+						System.out.println("here");
 						samples[i].stop();
 					} else {
 						samples[i].start();
@@ -23,8 +25,6 @@ public class Controller {
 				}
 			}
 		}
-		
-		//System.out.println("");
 		
 		buttons = state;
 	}

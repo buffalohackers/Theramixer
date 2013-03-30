@@ -20,6 +20,5 @@ public class Monome {
 		frame.pack();
 		frame.setSize(bg.screenWidth(),bg.screenHeight());
 		frame.setVisible(true);
-		
 	}
 }

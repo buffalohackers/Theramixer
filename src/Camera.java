@@ -20,8 +20,8 @@ import au.edu.jcu.v4l4j.exceptions.V4L4JException;
 public class Camera extends JPanel implements CaptureCallback, MouseListener {
 	private static int width = 1280, height = 720, std = V4L4JConstants.STANDARD_WEBCAM, channel = 0;
 	private static String device = "/dev/video0";
-	private static int[] lowerThreshold = new int[]{-47, 83, 103};
-	private static int[] upperThreshold = new int[]{3, 130, 128};
+	private static int[] lowerThreshold = new int[]{-150, -30, -150};
+	private static int[] upperThreshold = new int[]{-80, -1, 150};
 	private int[][][] result;
 	
 
@@ -116,6 +116,8 @@ public class Camera extends JPanel implements CaptureCallback, MouseListener {
 		
 		
 		Graphics graphics = image.getGraphics();
+		
+		graphics.drawRect(500, 50, 10, 10);
 	
 		graphics.setColor(Color.RED);
 
@@ -127,7 +129,7 @@ public class Camera extends JPanel implements CaptureCallback, MouseListener {
 		
 		for (int x = numX-1;x > 0;x--) {
 			for (int y = 0;y < numY;y++) {
-				if (colorPercentage[x][y] > 1500) {
+				if (colorPercentage[x][y] > 80) {
 					graphics.fillRect((width*x)/numX, (height*y)/numY, width/numX, height/numY);
 					buttonStates[curButton] = true;
 				} else {
