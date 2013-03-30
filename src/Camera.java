@@ -131,10 +131,9 @@ public class Camera implements CaptureCallback {
 			}
 		}
 		
-		System.out.println(colorPercentage[0][0]);
-		
-		ui.nextFrame(image);
+		ui.nextFrame(image, controller.getState());
 		controller.buttonStates(buttonStates);
+		
 		
 		frame.recycle();
 	}

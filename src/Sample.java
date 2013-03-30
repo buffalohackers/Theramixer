@@ -10,6 +10,7 @@ import javazoom.jl.player.Player;
 public class Sample {
 	private String _fileName;
 	private Player _player;
+	private Thread currentThread;
 	
 	public static ArrayList<Sample> samplesInCurrentDirectory(){
 		return samplesInDirectory("./");
@@ -33,23 +34,35 @@ public class Sample {
 	}
 	
 	public void start(){
-		new Thread(new Runnable(){
+		currentThread = new Thread(new Runnable(){
 			public void run(){
 				try {
 					_player = makePlayer();
 					_player.play();
+					while (!Thread.currentThread().isInterrupted()) {
+						if (_player.isComplete()) {
+							System.out.println("test");
+							_player.close();
+							_player = makePlayer();
+							_player.play();
+						}
+					}
 				} catch (JavaLayerException e) {
 					e.printStackTrace();
 				}
 			}
-		}).start();
+		});
+		currentThread.start();
 	}
 	
 	public void stop(){
 		new Thread(new Runnable(){
 			public void run(){
-				if (_player != null)
+				if (_player != null) {
 					_player.close();
+					currentThread.interrupt();
+				}
+					
 			}
 		}).start();
 	}

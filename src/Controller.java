@@ -9,6 +9,7 @@ public class Controller {
 	private long startTime;
 	private Thread recordedThread;
 	private int threadNum = 0;
+	private String recordingState = "Not Recording.";
 	
 	public Controller() {
 		recording = new ArrayList<Sample>();
@@ -19,6 +20,10 @@ public class Controller {
 		samples = Sample.samplesInCurrentDirectory();
 		System.out.println(samples.get(0).getFileName());
 //		samples = new Sample[]{new Sample("/home/pe/Code/workspace/Fork-my-Banana/snl12.mp3"), new Sample("/home/pe/Code/workspace/Fork-my-Banana/robot.mp3"), new Sample(f), new Sample(f)};
+	}
+	
+	public String getState() {
+		return recordingState;
 	}
 	
 	public void buttonStates(boolean[] state) {
@@ -44,7 +49,7 @@ public class Controller {
 						isRecording = !isRecording;
 						
 						if (isRecording) {
-							System.out.println("RESTART");
+							recordingState = "Recording...";
 							if (recordedThread != null) {
 								recordedThread.interrupt();
 							}
@@ -57,6 +62,7 @@ public class Controller {
 							duration.clear();
 							startTime = System.currentTimeMillis();
 						} else {
+							recordingState = "Not recording";
 							recordedThread = new Thread(new Runnable(){
 								public void run() {
 									int curStartIndex = 0, curEndIndex = 0;

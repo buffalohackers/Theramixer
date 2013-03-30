@@ -73,7 +73,7 @@ class UserInterface extends JComponent implements ComponentListener, WindowFocus
 		stream = _camera;
 	}
 	
-	public void nextFrame(BufferedImage img) {
+	public void nextFrame(BufferedImage img, String string) {
 		background = img;
 		repaint();
 	}
