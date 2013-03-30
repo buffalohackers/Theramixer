@@ -6,7 +6,7 @@ public class Controller {
 	
 	public Controller() {
 		buttons = new boolean[6];
-		String f = "/home/patrick/workspace/Fork-my-Banana/robot.mp3";
+		String f = "/home/pe/Code/workspace/Fork-my-Banana/snl12.mp3";
 		samples = new Sample[]{new Sample(f), new Sample(f), new Sample(f), new Sample(f), new Sample(f), new Sample(f), new Sample(f)};
 	}
 	
