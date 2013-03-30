@@ -91,7 +91,7 @@ public class Camera extends JPanel implements CaptureCallback, MouseListener {
 		int[][][] newResult = new int[width][height][3];
 		
 		int numX = 3;
-		int numY = 2;
+		int numY = 3;
 		
 		int[][] colorPercentage = new int[numX][numY];
 		

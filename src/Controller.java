@@ -17,7 +17,6 @@ public class Controller {
 			if (buttons[i] != state[i]) {
 				if (i > 1) {
 					if (buttons[i]) {
-						System.out.println("here");
 						samples[i].stop();
 					} else {
 						samples[i].start();
