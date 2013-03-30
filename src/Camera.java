@@ -84,7 +84,7 @@ public class Camera implements CaptureCallback {
 		int[][][] newResult = new int[width][height][3];
 		
 		int numX = 3;
-		int numY = 3;
+		int numY = 2;
 		
 		int[][] colorPercentage = new int[numX][numY];
 		
@@ -112,8 +112,10 @@ public class Camera implements CaptureCallback {
 
 		result = newResult;
 		
-		boolean[] buttonStates = new boolean[6];
+		boolean[] buttonStates = new boolean[numX*numY];
 		int curButton = 0;
+		
+		
 		
 		for (int x = numX-1;x >= 0;x--) {
 			for (int y = 0;y < numY;y++) {
@@ -126,9 +128,11 @@ public class Camera implements CaptureCallback {
 				}
 				curButton++;
 				
-				//graphics.drawString(Integer.toString(colorPercentage[x][y]), (width*x)/numX+20, (height*y)/numY+50);
+				graphics.drawString(Integer.toString(colorPercentage[x][y]), (width*x)/numX+20, (height*y)/numY+50);
 			}
 		}
+		
+		System.out.println(colorPercentage[0][0]);
 		
 		ui.nextFrame(image);
 		controller.buttonStates(buttonStates);

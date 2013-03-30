@@ -62,7 +62,6 @@ public class Controller {
 									int tnum = threadNum;
 									threadNum++;
 									while (!Thread.currentThread().isInterrupted()) {
-										System.out.println(tnum);
 										try {
 											Thread.currentThread().sleep(50);
 											if (curStartIndex < duration.size()) {
