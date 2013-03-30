@@ -52,9 +52,9 @@ class UserInterface extends JComponent implements ComponentListener, WindowFocus
 			g.drawImage(background,0,0,null);
 			
 			if (x) {
-				g.setFont( new Font( "Arial", Font.BOLD, 50 ) );
+				g.setFont( new Font( "Arial", Font.BOLD, 20 ) );
 				g.setColor(new Color(255, 255, 255, 255));
-				g.drawString("Change Mode", blockWidth/5, blockHeight/2);
+				g.drawString("HammerTime", blockWidth/5, blockHeight/2);
 				g.drawString("Mix 01", blockWidth/3+blockWidth, blockHeight/4);
 				g.drawString("Mix 03", blockWidth/3+(blockWidth*2), blockHeight/4);
 				g.drawString("Record Loop", blockWidth/4, blockHeight+(blockHeight/4));
