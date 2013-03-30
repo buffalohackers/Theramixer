@@ -15,8 +15,8 @@ import au.edu.jcu.v4l4j.exceptions.V4L4JException;
 public class Camera implements CaptureCallback {
 	private static int width = 1280, height = 720, std = V4L4JConstants.STANDARD_WEBCAM, channel = 0;
 	private static String device = "/dev/video0";
-	private static int[] lowerThreshold = new int[]{-150, -30, -150};
-	private static int[] upperThreshold = new int[]{-80, -1, 150};
+	private static int[] lowerThreshold = new int[]{-130, -50, -150};
+	private static int[] upperThreshold = new int[]{-80, -1, -80};
 	private int[][][] result;
 	
 
@@ -108,6 +108,9 @@ public class Camera implements CaptureCallback {
 		}	
 		
 		Graphics graphics = image.getGraphics();
+		
+		graphics.drawRect(200, 500, 10, 10);
+		System.out.println(newResult[200][500][0] + " " + newResult[200][500][1] + " " + newResult[200][500][2]);
 
 		result = newResult;
 		
@@ -116,7 +119,7 @@ public class Camera implements CaptureCallback {
 		
 		for (int x = numX-1;x >= 0;x--) {
 			for (int y = 0;y < numY;y++) {
-				if (colorPercentage[x][y] > 80) {
+				if (colorPercentage[x][y] > 55) {
 					graphics.setColor(new Color(0, 200, 0, 100));
 					graphics.fillRect((width*x)/numX, (height*y)/numY, width/numX, height/numY+2);
 					buttonStates[curButton] = true;

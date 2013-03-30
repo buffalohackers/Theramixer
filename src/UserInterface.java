@@ -19,6 +19,7 @@ class UserInterface extends JComponent implements ComponentListener, WindowFocus
 	Toolkit tk = Toolkit.getDefaultToolkit();
 	protected BufferedImage background;
     Camera stream;
+    String recStatus = "Not Recording";
     boolean x = true;
 	
 	public UserInterface(JFrame frame) { 		
@@ -54,11 +55,12 @@ class UserInterface extends JComponent implements ComponentListener, WindowFocus
 				g.setFont( new Font( "Arial", Font.BOLD, 50 ) );
 				g.setColor(new Color(255, 255, 255, 255));
 				g.drawString("Change Mode", blockWidth/5, blockHeight/2);
-				g.drawString("Mix 01", blockWidth/3+blockWidth, blockHeight/2);
-				g.drawString("Mix 03", blockWidth/3+(blockWidth*2), blockHeight/2);
-				g.drawString("Record Loop", blockWidth/4, blockHeight+(blockHeight/2));
-				g.drawString("Mix 02", blockWidth/3+blockWidth, blockHeight/2+blockHeight);
-				g.drawString("Mix 04", blockWidth/3+(blockWidth*2), blockHeight/2+blockHeight);
+				g.drawString("Mix 01", blockWidth/3+blockWidth, blockHeight/4);
+				g.drawString("Mix 03", blockWidth/3+(blockWidth*2), blockHeight/4);
+				g.drawString("Record Loop", blockWidth/4, blockHeight+(blockHeight/4));
+				g.drawString(recStatus, blockWidth/4, blockHeight+(blockHeight/2));
+				g.drawString("Mix 02", blockWidth/3+blockWidth, blockHeight/4+blockHeight);
+				g.drawString("Mix 04", blockWidth/3+(blockWidth*2), blockHeight/4+blockHeight);
 				g.drawLine(blockWidth, 0, (blockWidth)+3, screenHeight);
 				g.drawLine(2*blockWidth, 0, (2*blockWidth)+3, screenHeight);
 				g.drawLine(0, blockHeight, screenWidth, blockHeight+3);
@@ -73,7 +75,8 @@ class UserInterface extends JComponent implements ComponentListener, WindowFocus
 		stream = _camera;
 	}
 	
-	public void nextFrame(BufferedImage img) {
+	public void nextFrame(BufferedImage img, String status) {
+		recStatus = status;
 		background = img;
 		repaint();
 	}
