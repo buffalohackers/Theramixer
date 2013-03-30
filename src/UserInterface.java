@@ -16,9 +16,9 @@ class UserInterface extends JComponent implements ComponentListener, WindowFocus
 	Toolkit tk = Toolkit.getDefaultToolkit();
 	protected BufferedImage background;
     Camera stream = new Camera(this);
+    boolean x = false;
 	
-	public UserInterface(JFrame frame) { 	
-		
+	public UserInterface(JFrame frame) { 		
 		frame.addComponentListener(this);
 		frame.addWindowFocusListener(this);
 		new Thread(this).start();        
@@ -28,9 +28,14 @@ class UserInterface extends JComponent implements ComponentListener, WindowFocus
 		int blockWidth = stream.getWidth()/3;
 		int blockHeight = stream.getHeight()/2;
 		g.drawImage(background,0,0,null);
-		g.drawLine(blockWidth, 0, (blockWidth)+2, stream.getHeight());
-		g.drawLine(2*blockWidth, 0, (2*blockWidth)+2, stream.getHeight());
-		g.drawLine(0, blockHeight, stream.getWidth(), blockHeight+2);
+		if (x) {
+			g.drawLine(blockWidth, 0, (blockWidth)+2, stream.getHeight());
+			g.drawLine(2*blockWidth, 0, (2*blockWidth)+2, stream.getHeight());
+			g.drawLine(0, blockHeight, stream.getWidth(), blockHeight+2);
+		} else {
+			g.drawLine(blockWidth, 0, (blockWidth)+2, stream.getHeight());
+			g.drawLine(blockWidth+200, 0, (blockWidth)+202, stream.getHeight());
+		}
 	}
 	
 	public void nextFrame(BufferedImage img) {
